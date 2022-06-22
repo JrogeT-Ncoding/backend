@@ -11,8 +11,12 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public User register(User user){
-        return repository.save(user);
+    public User register(User user) throws Exception {
+        try{
+            return repository.save(user);
+        }catch (Exception e){
+            throw new Exception("Error registering user: " + e.getMessage());
+        }
     }
 
     public List<User> getUsers(){
