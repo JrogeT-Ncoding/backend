@@ -13,24 +13,24 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     public User register(User user) throws Exception {
         try{
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            return repository.save(user);
+            return userRepository.save(user);
         }catch (Exception e){
             throw new Exception("Error registering user: " + e.getMessage());
         }
     }
 
     public List<User> getUsers(){
-        return (List<User>) repository.findAll();
+        return (List<User>) userRepository.findAll();
     }
 
     public User update(int id, User user) throws NotFoundException {
-        Optional<User> optionalUser = repository.findById(id);
+        Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
             throw new NotFoundException("User not found");
         }
@@ -38,6 +38,6 @@ public class UserService {
         updatedUser.setName(user.getName());
         updatedUser.setLastname(user.getLastname());
         updatedUser.setPhone(user.getPhone());
-        return repository.save(updatedUser);
+        return userRepository.save(updatedUser);
     }
 }

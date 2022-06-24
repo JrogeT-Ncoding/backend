@@ -1,25 +1,22 @@
 package com.jroget.ncodingbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
-@Table(name = "categories")
-public class Category implements Serializable{
+@Table(name = "courses")
+public class Course implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Course> courses;
-
     private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     public int getId() {
         return id;
@@ -37,11 +34,10 @@ public class Category implements Serializable{
         this.name = name;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public Category getCategory() {
+        return category;
     }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
