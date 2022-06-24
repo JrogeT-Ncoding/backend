@@ -20,6 +20,13 @@ public class BaseController {
         );
     }
 
+    protected ResponseEntity<Response> sendResponseNotAllowed(String message) {
+        return new ResponseEntity(
+                new Response("error",message, null),
+                HttpStatus.METHOD_NOT_ALLOWED
+        );
+    }
+
     protected ResponseEntity<Response> sendResponseServerError(String message, Object data) {
         return new ResponseEntity(
                 new Response("error",message, data),

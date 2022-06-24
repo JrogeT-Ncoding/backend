@@ -19,19 +19,40 @@ public class CourseController extends BaseController {
     private CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<Response> createC(@RequestBody Course course) {
+    public ResponseEntity<Response> create(@RequestBody Course course) {
         try {
             Course courseCreated = courseService.register(course);
             return this.sendResponseOk("Course created successfully", courseCreated);
+        }catch (NotFoundException e) {
+            return this.sendResponseNotFound(e.getMessage());
         }catch (Exception e) {
             return this.sendResponseServerError("Error creating course: " + e.getMessage(),course);
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<Response> getAll(){
+    @GetMapping
+    public ResponseEntity<Response> getAll() {
+        try {
+            List<Course> courses = courseService.getAll();
+            return this.sendResponseOk("Courses retrieved successfully", courses);
+        }catch (Exception e) {
+            return this.sendResponseServerError("Error retrieving courses: " + e.getMessage(), null);
+        }
+    }
+    @GetMapping("/available")
+    public ResponseEntity<Response> getAllAvailables(){
         try{
-            List<Course> courses = courseService.getCourses();
+            List<Course> courses = courseService.getAvailableCourses();
+            return this.sendResponseOk("Courses retrieved successfully", courses);
+        }catch (Exception e){
+            return this.sendResponseServerError("Error retrieving courses: " + e.getMessage(),null);
+        }
+    }
+
+    @GetMapping("/started")
+    public ResponseEntity<Response> getAllStarted(){
+        try{
+            List<Course> courses = courseService.getStartedCourses();
             return this.sendResponseOk("Courses retrieved successfully", courses);
         }catch (Exception e){
             return this.sendResponseServerError("Error retrieving courses: " + e.getMessage(),null);

@@ -1,6 +1,9 @@
 package com.jroget.ncodingbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +18,10 @@ public class User {
     private String name;
     private String lastname;
     private String phone;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Enrollment> enrollments;
 
     public int getId() {
         return id;

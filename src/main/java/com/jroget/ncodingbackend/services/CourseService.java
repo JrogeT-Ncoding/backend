@@ -19,12 +19,12 @@ public class CourseService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Course register(Course course) throws Exception {
-        try{
-            return courseRepository.save(course);
-        }catch (Exception e){
-            throw new Exception("Error registering course: " + e.getMessage());
+    public Course register(Course course) throws NotFoundException {
+        Optional<Category> category = categoryRepository.findById(course.getCategory().getId());
+        if(!category.isPresent()){
+            throw new NotFoundException("Category not found");
         }
+        return courseRepository.save(course);
     }
 
     public List<Course> getCourses(){
@@ -45,5 +45,17 @@ public class CourseService {
             throw new NotFoundException("Category not found");
         }
         return courseRepository.findByCategory(optionalCategory.get());
+    }
+
+    public List<Course> getAvailableCourses() {
+        return courseRepository.findByAvailableCapacityIsGreaterThan(0);
+    }
+
+    public List<Course> getAll() {
+        return (List<Course>) courseRepository.findAll();
+    }
+
+    public List<Course> getStartedCourses() {
+        return courseRepository.findAvailableCapacityIsNotEqualMaxCapacity();
     }
 }
