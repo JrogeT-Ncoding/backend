@@ -15,6 +15,10 @@ public class Course implements Serializable{
     private int id;
 
     private String name;
+    private String description;
+    private String image;
+    private int duration;
+    private float rate;
 
     private int maxCapacity;
 
@@ -75,5 +79,37 @@ public class Course implements Serializable{
 
     public void setAvailableCapacity(int availableCapacity) {
         this.availableCapacity = availableCapacity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 }

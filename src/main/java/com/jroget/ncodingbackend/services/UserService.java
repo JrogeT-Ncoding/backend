@@ -35,9 +35,15 @@ public class UserService {
             throw new NotFoundException("User not found");
         }
         User updatedUser = optionalUser.get();
-        updatedUser.setName(user.getName());
-        updatedUser.setLastname(user.getLastname());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setFullName(user.getFullName());
+        updatedUser.setCountry(user.getCountry());
         updatedUser.setPhone(user.getPhone());
+        updatedUser.setAddress(user.getAddress());
+        updatedUser.setEducationLevel(user.getEducationLevel());
+        updatedUser.setBirthDate(user.getBirthDate());
+        updatedUser.setGender(user.getGender());
+        updatedUser.setPreferredLanguage(user.getPreferredLanguage());
         return userRepository.save(updatedUser);
     }
 }

@@ -4,7 +4,9 @@ import com.jroget.ncodingbackend.models.Response;
 import com.jroget.ncodingbackend.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 public class BaseController {
     protected  ResponseEntity<Response> sendResponseOk(String message, Object data) {
         return new ResponseEntity(

@@ -58,4 +58,8 @@ public class CourseService {
     public List<Course> getStartedCourses() {
         return courseRepository.findAvailableCapacityIsNotEqualMaxCapacity();
     }
+
+    public List<Course> getCoursesByUser(int id) {
+        return courseRepository.findByUserId(id);
+    }
 }

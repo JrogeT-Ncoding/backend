@@ -2,9 +2,11 @@ package com.jroget.ncodingbackend.controllers;
 
 import com.jroget.ncodingbackend.exceptions.NotAllowedException;
 import com.jroget.ncodingbackend.exceptions.NotFoundException;
+import com.jroget.ncodingbackend.models.Course;
 import com.jroget.ncodingbackend.models.Enrollment;
 import com.jroget.ncodingbackend.models.Response;
 import com.jroget.ncodingbackend.models.User;
+import com.jroget.ncodingbackend.services.CourseService;
 import com.jroget.ncodingbackend.services.EnrollmentService;
 import com.jroget.ncodingbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class UserController extends BaseController {
 
     @Autowired
     private EnrollmentService enrollmentService;
+
+    @Autowired
+    private CourseService courseService;
 
     @GetMapping()
     public ResponseEntity<Response> getAll(){
@@ -42,6 +47,16 @@ public class UserController extends BaseController {
             return this.sendResponseNotFound("User not found");
         }catch (Exception e){
             return this.sendResponseServerError("Error updating user: " + e.getMessage(),null);
+        }
+    }
+
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<Response> getCourses(@PathVariable("id") int id){
+        try{
+            List<Course> enrollments = courseService.getCoursesByUser(id);
+            return this.sendResponseOk("Courses retrieved successfully", enrollments);
+        }catch (Exception e){
+            return this.sendResponseServerError("Error retrieving courses: " + e.getMessage(),null);
         }
     }
 
